@@ -11,6 +11,7 @@ function save_options() {
     var HideBadArea = document.getElementById('HideBadArea').checked;
     var ShowOnlyArea = document.getElementById('ShowOnlyArea').checked;
     var AreaName = document.getElementById('AreaName').value;
+    var TicketBeast = document.getElementById('TicketBeast').checked;
 
     chrome.storage.local.set({
         ProgramAuto,
@@ -22,7 +23,8 @@ function save_options() {
         TicketNumber,
         HideBadArea,
         ShowOnlyArea,
-        AreaName
+        AreaName,
+        TicketBeast
     }).then(() => {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -44,7 +46,8 @@ function restore_options() {
         TicketNumber: 0,
         HideBadArea: false,
         ShowOnlyArea: false,
-        AreaName: ""
+        AreaName: "",
+        TicketBeast: false
     }).then(items => {
         // console.log(items);
         document.getElementById('ProgramAuto').checked = items.ProgramAuto;
@@ -57,6 +60,7 @@ function restore_options() {
         document.getElementById('HideBadArea').checked = items.HideBadArea;
         document.getElementById('ShowOnlyArea').checked = items.ShowOnlyArea;
         document.getElementById('AreaName').value = items.AreaName;
+        document.getElementById('TicketBeast').checked = items.TicketBeast;
     });
 }
 document.addEventListener('DOMContentLoaded', restore_options);

@@ -11,6 +11,8 @@ if (title.includes("中信")) {
   num = "552046";
 } else if (title.includes("玉山")){
   num = "524255";
+} else if (title.includes("國泰")){
+  num = "51486924";
 } else {
   num = "";
 }
