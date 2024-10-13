@@ -12,7 +12,7 @@
   "options_page": "options.html",
   "content_scripts" : [
     {
-      "matches" : [ "https://tixcraft.com/ticket/ticket/*" ],
+      "matches" : [ "https://tixcraft.com/ticket/ticket/*", "https://www.indievox.com/ticket/ticket/*" ],
       "run_at": "document_end",
       "js" : [ "jquery.min.js", "js/ticket.js" ]
     },

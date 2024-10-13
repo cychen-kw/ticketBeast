@@ -3,6 +3,7 @@
 if ($("#ticketPriceList select").length > 0) {
   let $ticket_options = $("#ticketPriceList select:first option");
   if ($ticket_options.length) {
+
     chrome.storage.local.get({
       TicketNumber: 0
     }, items => {
@@ -18,6 +19,7 @@ if ($("#ticketPriceList select").length > 0) {
           }
         });
       }
+
       // if ticket number can't find or last
       if (doSelect == false) {
         $ticket_options.last().prop('selected', true);
@@ -48,6 +50,9 @@ $("#TicketForm_agree").prop('checked', true)
 
 // please input verify code
 $("#TicketForm_verifyCode").focus();
+
+// 下滑看清楚verify code
+$(window).scrollTop(300);
 
 /* old method
 let data = document.getElementsByTagName('html')[0].innerHTML;

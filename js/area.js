@@ -2,59 +2,55 @@
 
 const badAreaArray = ["遮擋", "護網", "鐵網", "不完整"];
 
-$(document).ready(function () {
-  chrome.storage.local.get({
-    HideBadArea: false,
-    ShowOnlyArea: false,
-    AreaName: "",
-    TicketNumber: 0,
-    TicketBeast: false
-  }, items => {
+chrome.storage.local.get({
+  HideBadArea: false,
+  ShowOnlyArea: false,
+  AreaName: "",
+  TicketNumber: 0,
+  TicketBeast: false
+}, items => {
 
-    if (items.ShowOnlyArea && items.AreaName.length) {
-      var AreaNameArray = items.AreaName.split(',');
-      console.log(AreaNameArray);
-      $("ul.area-list > li").each(function (index) {
-        if (AreaNameArray.some(el => $(this).text().includes(el))) {
-          // $(this).show();
-        } else {
-          $(this).hide();
-        }
-      });
+  if (items.ShowOnlyArea && items.AreaName.length) {
+    var AreaNameArray = items.AreaName.split(',');
+    console.log(AreaNameArray);
+    $("ul.area-list > li").each(function (index) {
+      if (AreaNameArray.some(el => $(this).text().includes(el))) {
+        // $(this).show();
+      } else {
+        $(this).remove();
+      }
+    });
+  }
+
+  if (items.HideBadArea) {
+    $("ul.area-list > li").each(function (index) {
+      if (badAreaArray.some(el => $(this).text().includes(el))) {
+        $(this).remove();
+      }
+    });
+  }
+
+  if (items.TicketBeast) {
+    var e = $("ul.area-list > li:has(a)").filter(function () {
+      if ($(this).text().includes('熱賣中')) {
+        return true;
+      }
+
+      var remaining = $(this).text().match(/剩餘\s*(\d+)/)[1];
+      console.log(remaining);
+      return parseInt(remaining) >= items.TicketNumber;
+    }).first().find('a');
+
+    if (Object.keys(urls).length && e.attr('id') in urls) {
+      window.location.href = urls[e.attr('id')];
     }
+  }
 
-    if (items.HideBadArea) {
-      $("ul.area-list > li").each(function (index) {
-        if (badAreaArray.some(el => $(this).text().includes(el))) {
-          $(this).hide();
-        }
-      });
-    }
-
-    // if (items.TicketBeast) {
-    //   var e = $("ul.area-list > li:has(a)").filter(function () {
-    //     if ($(this).text().includes('熱賣中')) {
-    //       return true;
-    //     }
-
-    //     var remaining = $(this).text().match(/剩餘\s*(\d+)/)[1];
-    //     console.log(remaining);
-    //     return parseInt(remaining) >= items.TicketNumber;
-    //   }).first().find('a');
-
-    //   e.trigger('click');
-
-    // }
-
-    if (items.TicketBeast) {
-      window.location.href = 'https://tixcraft.com/ticket/ticket/24_mel/17553/1/8';
-    }
-
-  });
 });
 
+
 // hide no link area
-$("ul.area-list > li:not(:has(a))").hide();
+$("ul.area-list > li:not(:has(a))").remove();
 
 // let actualCode = `
 // setTimeout(function() {
@@ -88,15 +84,14 @@ $("ul.area-list > li:not(:has(a))").hide();
 
 
 
-// let scripts = document.getElementsByTagName('script');
-// console.log("scripts number " + scripts.length);
-// for (let i = 0; i < scripts.length; i++) {
-//   let data = scripts[i].innerHTML;
-//   if (data.includes("areaUrlList")) {
-//     console.log("hit script " + i);
-//     data = data.substr(data.indexOf("areaUrlList"), 300);
-//     console.log(data);
-//     break;
-//   }
-// }
+let urls = {};
+let scripts = document.getElementsByTagName('script');
+for (let i = 0; i < scripts.length; i++) {
+  let data = scripts[i].innerHTML;
+  if (data.includes("areaUrlList")) {
+    urls = JSON.parse(data.match(/areaUrlList\s=\s({.*})/)[1]);
+    console.log(urls);
+    break;
+  }
+}
 
