@@ -41,7 +41,7 @@ function restore_options() {
         ProgramAuto2: false,
         ProgramAuto3: false,
         ProgramAuto4: false,
-        ProgramDate: '2023-12-08',
+        ProgramDate: '2024-12-08',
         ProgramOnly: false,
         TicketNumber: 0,
         HideBadArea: false,
